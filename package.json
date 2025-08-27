@@ -1,0 +1,34 @@
+{
+  "name": "markdown-tabstable",
+  "version": "1.0.0",
+  "description": "A lightweight JavaScript library to render tab-separated Markdown tables (Tabstables) into HTML.",
+  "main": "src/tabstable.js",
+  "scripts": {
+    "build": "echo \"No build step defined\"",
+    "test": "echo \"No tests defined\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/markdown-tabstable.git"
+  },
+  "keywords": [
+    "markdown",
+    "table",
+    "tab-separated",
+    "tabstable",
+	"IR",
+    "html"
+  ],
+  "author": "NetBuddy.Net",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yourusername/markdown-tabstable/issues"
+  },
+  "homepage": "https://github.com/yourusername/markdown-tabstable#readme",
+  "type": "module",
+  "files": [
+    "src/tabstable.js",
+    "src/ir.js",
+    "src/go.js"
+  ]
+}
