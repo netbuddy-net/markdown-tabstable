@@ -29,6 +29,7 @@ Bob		    30          Hawaii          US
 - **Constraints**:
 	- A table must be **preceded and followed by an empty line**.
 	- The special marker `|!|` (pipe+exclamation mark+pipe) must appear **on the empty line** immediately before the table, with **no spaces** before it.
+ 	- Currently, table header (`<thead>`) supports only **one row**. 
 - **Tab-separated tables**: Columns are separated by **one tab**, extra tabs or spaces are allowed but ignored during rendering.
 - **Cell alignment using header**:
 	- `:Header:` → center
