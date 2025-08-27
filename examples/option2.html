@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Markdown Tabstable Test</title>
+<style>
+  textarea { width: 50%; height: 110px; margin-bottom: 10px; }
+  button { margin-right: 10px; }
+  pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+  #table-container table { border-collapse: collapse;}
+  #table-container th, #table-container td { border: 1px solid #333; padding: 4px; width: 150px;}
+</style>
+</head>
+<body>
+
+<h2>Markdown Tabstable Test</h2>
+<textarea id="md" rows="10" cols="70">
+|!| 
+Name		:Age:		:Town			Country:
+Anna		45		London			UK !2<<
+Alice		22		Bristol	
+Rick		^|		Lyon			FR	 
+Bob		30 		Hawaii !2>>			
+</textarea>
+
+<br>
+<button id="parse-btn">Parse Markdown → JSON</button>
+<button id="render-btn">Render JSON → HTML</button>
+
+<h3>Intermediate Representation (JSON)</h3>
+<div id="json-output"><pre></pre></div>
+
+<h3>Rendered HTML Table</h3>
+<div id="table-container"></div>
+
+<script src="../src/ir.js"></script>
+<script src="../src/go.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('parse-btn').addEventListener('click', () => {
+      const mdTextarea = document.getElementById('md');
+      const jsonDiv = document.getElementById('json-output');
+      const mdText = mdTextarea.value;
+      const ir = window.parseMarkdownTabstable(mdText);
+      jsonDiv.textContent = JSON.stringify(ir, null, 2);
+  });
+
+  document.getElementById('render-btn').addEventListener('click', () => {
+      const jsonDiv = document.getElementById('json-output');
+      const htmlDiv = document.getElementById('table-container'); // make sure this exists
+      const ir = JSON.parse(jsonDiv.textContent);
+      htmlDiv.innerHTML = window.renderMarkdownTabstable(ir);
+  });
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Markdown Tabstable Ready Bin</title>
+<style>
+table { border-collapse: collapse; width: 50%; }
+th, td { border: 1px solid #ccc; padding: 4px 8px; }
+</style>
+</head>
+<body>
+
+<h2>Markdown Tabstable Parser</h2>
+
+<textarea id="md" rows="10" cols="70">
+|!|
+Name		:Age:		:Town			Country:
+Anna		45		London			UK !2<<
+Alice		22		Bristol	
+Rick		^|		Lyon			FR	 
+Bob		30 		Hawaii !2>>		
+</textarea>
+<br>
+<button id="parse-btn">Parse Markdown → HTML</button>
+
+<div id="html-output" style="margin-top:20px;"></div>
+ 
+<script src="../src/tabstable.js"></script>
+<script>
+document.getElementById('parse-btn').addEventListener('click', () => {
+    const md = document.getElementById('md').value;
+    const htmlDiv = document.getElementById('html-output');
+    htmlDiv.innerHTML = renderTabstable(md);
+});
+</script>
+
+</body>
+</html>
