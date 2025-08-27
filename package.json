@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/markdown-tabstable.git"
+    "url": "https://github.com/netbuddy-net/markdown-tabstable.git"
   },
   "keywords": [
     "markdown",
@@ -22,9 +22,9 @@
   "author": "NetBuddy.Net",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yourusername/markdown-tabstable/issues"
+    "url": "https://github.com/netbuddy-net/markdown-tabstable/issues"
   },
-  "homepage": "https://github.com/yourusername/markdown-tabstable#readme",
+  "homepage": "https://github.com/netbuddy-net/markdown-tabstable#readme",
   "type": "module",
   "files": [
     "src/tabstable.js",
@@ -32,3 +32,4 @@
     "src/go.js"
   ]
 }
+
