@@ -60,9 +60,9 @@ Bob			30			Hawaii !2>>
 <table>
 <thead><tr>
 <th align="left">Name &nbsp;&nbsp;&nbsp;&nbsp;</th>
-<th align="center">&nbsp;&nbsp;&nbsp;Age&nbsp;&nbsp;&nbsp;</th>
-<th align="left">Town&nbsp;&nbsp;&nbsp;&nbsp;</th>
-<th align="right">&nbsp;&nbsp;&nbsp;Country</th>
+<th align="center">&nbsp;&nbsp;&nbsp; Age &nbsp;&nbsp;&nbsp;</th>
+<th align="left">Town &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+<th align="right">&nbsp;&nbsp; Country</th>
 </tr></thead>
 <tbody><tr>
 <td align="left">Anna</td>
