@@ -57,12 +57,12 @@ Bob			30			Hawaii !2>>
 
 ## HTML Output
 
-<table style="display: table !important; border-collapse: collapse; width: 500px; table-layout: fixed;">
+<table>
 <thead><tr>
-<th align="left">Name</th>
-<th align="center">Age</th>
-<th align="left">Town</th>
-<th align="right">Country</th>
+<th align="left">Name &nbsp;&nbsp;&nbsp;</th>
+<th align="center">&nbsp;&nbsp;Age&nbsp;&nbsp;</th>
+<th align="left">Town&nbsp;&nbsp;&nbsp;</th>
+<th align="right">&nbsp;&nbsp;&nbsp;Country</th>
 </tr></thead>
 <tbody><tr>
 <td align="left">Anna</td>
