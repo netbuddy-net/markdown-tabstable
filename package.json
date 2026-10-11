@@ -1,6 +1,6 @@
 {
   "name": "markdown-tabstable",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "A lightweight JavaScript library to render tab-separated Markdown tables (Tabstables) into HTML.",
   "main": "src/tabstable.js",
   "scripts": {
