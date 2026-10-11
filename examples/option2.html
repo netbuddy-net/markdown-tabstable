@@ -14,13 +14,16 @@
 <body>
 
 <h2>Markdown Tabstable Test</h2>
+<p>The <b>ir.js</b> and <b>go.js</b> files must be in the same folder as this file.</p>
+
 <textarea id="md" rows="10" cols="70">
-|!| 
+```tabstable
 Name		:Age:		:Town			Country:
 Anna		45		London			UK !2<<
 Alice		22		Bristol	
-Rick		^|		Lyon			FR	 
+Rick		&empty		Lyon			FR	 
 Bob		30 		Hawaii !2>>			
+```
 </textarea>
 
 <br>
@@ -33,8 +36,8 @@ Bob		30 		Hawaii !2>>
 <h3>Rendered HTML Table</h3>
 <div id="table-container"></div>
 
-<script src="../src/ir.js"></script>
-<script src="../src/go.js"></script>
+<script src="ir.js"></script>
+<script src="go.js"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {

@@ -13,26 +13,173 @@ th, td { border: 1px solid #ccc; padding: 4px 8px; }
 <h2>Markdown Tabstable Parser</h2>
 
 <textarea id="md" rows="10" cols="70">
-|!|
+```tabstable
 Name		:Age:		:Town			Country:
 Anna		45		London			UK !2<<
 Alice		22		Bristol	
-Rick		^|		Lyon			FR	 
-Bob		30 		Hawaii !2>>		
+Rick		&empty		Lyon			FR	 
+Bob		30 		Hawaii !2>>	
+```	
 </textarea>
 <br>
 <button id="parse-btn">Parse Markdown → HTML</button>
 
 <div id="html-output" style="margin-top:20px;"></div>
- 
-<script src="../src/tabstable.js"></script>
+
 <script>
+function renderMarkdownTabstableDirect(mdText) {
+   if (!mdText || typeof mdText !== 'string') return '';
+
+    const lines = mdText.split(/\r?\n/).map(l => l.trimEnd());
+    let tableLines = [];
+    let inTable = false;
+	let fencedTable = false;
+
+for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+
+    // Detect table initialisation
+    if (!inTable) {
+        if (line === '|!|') {
+            inTable = true;
+            fencedTable = false;
+            continue;
+        }
+        if (line.trim() === '```tabstable') {
+            inTable = true;
+            fencedTable = true;
+            continue;
+        }
+        continue;
+    }
+
+    // Fenced table: stop at closing fence
+    if (fencedTable) {
+        if (line.trim() === '```') {
+            break;
+        }
+        // Ignore blank lines inside the fenced block
+        if (line.trim() === '') {
+            continue;
+        }
+        tableLines.push(line);
+        continue;
+    }
+	
+    // Legacy table: blank line ends the table
+    if (line === '') {
+        break;
+    }
+    tableLines.push(line);
+	}
+
+    if (tableLines.length === 0) return '';
+
+    const [headerLine, ...bodyLines] = tableLines;
+
+    function parseCell(cellText) {
+        let colspan = '';
+        let rowspan = '';
+        let text = cellText.trim();
+
+        // dedicated empty cell
+        if (text === '^|' || text === '&empty') {
+            text = '';
+        }
+
+        // colspan: !N>>
+        let spanMatch = text.match(/(.*?)\s+!([0-9]+)(>>|<<)\s*$/);
+        if (spanMatch) {
+            text = spanMatch[1].trim();
+            const n = parseInt(spanMatch[2], 10) || 1;
+            if (spanMatch[3] === '>>') {
+                colspan = ` colspan="${n}"`;
+            } else if (spanMatch[3] === '<<') {
+                rowspan = ` rowspan="${n}"`;
+            }
+        }
+
+        return { text, colspan, rowspan };
+    }
+
+    function parseRow(line) {
+        let rawCells = line.split(/\t+/).map(c => c.trim());
+        rawCells = rawCells.filter(c => c.length > 0 || c === '^|');
+        return rawCells.map(parseCell);
+    }
+	
+	// --- parse header with alignment ---
+    let rawHeaderCells = headerLine.split(/\t+/).map(c => c.trim());
+    rawHeaderCells = rawHeaderCells.filter(c => c.length > 0 || c === '^|');
+
+    const headerCells = rawHeaderCells.map(raw => {
+        const parsed = parseCell(raw); // parse spans and get base text
+        let text = parsed.text;
+        let align = 'left';
+
+        if (/^:.*:$/.test(text)) {
+            align = 'center';
+            text = text.replace(/^:(.*):$/, '$1');
+        } else if (/^:/.test(text)) {
+            // leading colon → left (default); remove leading colon
+            text = text.replace(/^:/, '');
+        } else if (/:$/.test(text)) {
+            align = 'right';
+            text = text.replace(/:$/, '');
+        }
+
+        return {
+            text,
+            align,
+            colspan: parsed.colspan,
+            rowspan: parsed.rowspan
+        };
+    });
+
+    // start HTML
+    let html = '<table>\n';
+
+    // header
+    html += '<thead><tr>';
+	
+	
+	headerCells.forEach(cell => {
+        const alignAttr = cell.align ? ` align="${cell.align}"` : '';
+        html += `<th${cell.colspan}${alignAttr}>${cell.text}</th>`;
+    });
+    html += '</tr></thead>\n';
+
+    // body
+    html += '<tbody>\n';
+    bodyLines.forEach(line => {
+        html += '<tr>';
+		const cells = parseRow(line);
+        cells.forEach((cell, i) => {
+            let alignAttr = '';
+            if (headerCells[i] && headerCells[i].align) {
+                alignAttr = ` align="${headerCells[i].align}"`;
+            }
+            html += `<td${cell.colspan}${cell.rowspan}${alignAttr}>${cell.text}</td>`;	
+	
+        });
+        html += '</tr>\n';
+    });
+    html += '</tbody>\n';
+
+    html += '</table>';
+
+    return html;
+}
+
+
 document.getElementById('parse-btn').addEventListener('click', () => {
     const md = document.getElementById('md').value;
     const htmlDiv = document.getElementById('html-output');
-    htmlDiv.innerHTML = renderTabstable(md);
+    htmlDiv.innerHTML = renderMarkdownTabstableDirect(md);
 });
 </script>
+
+
 
 </body>
 </html>
