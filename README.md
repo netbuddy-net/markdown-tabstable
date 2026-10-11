@@ -15,7 +15,7 @@ Bob		    30          Hawaii          US
 ## Features
 
 - **Tab-separated tables**: Columns are separated by at least one tab.
-- **Cell alignment**: Follows the same syntax as existing Markdown tables.
+- **Cell alignment**: Follows the same syntax as standard Markdown tables. However, alignment indicators are applied directly to the header text, as Tabstable does not use the hyphen separator row found in standard Markdown tables.
 - **Colspan / Rowspan**:
 	- colspan is supported on any cell.
 	- rowspan currently works only on table body, it is ignored on table header.
