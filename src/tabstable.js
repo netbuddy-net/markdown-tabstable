@@ -4,25 +4,45 @@ function renderTabstable(mdText) {
     const lines = mdText.split(/\r?\n/).map(l => l.trimEnd());
     let tableLines = [];
     let inTable = false;
+	let fencedTable = false;
 
-    for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
+for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
 
-        // detect start marker
+    // Detect table initialisation
+    if (!inTable) {
         if (line === '|!|') {
             inTable = true;
+            fencedTable = false;
             continue;
         }
+        if (line.trim() === '```tabstable') {
+            inTable = true;
+            fencedTable = true;
+            continue;
+        }
+        continue;
+    }
 
-        // blank line ends table
-        if (inTable && line === '') {
+    // Fenced table: stop at closing fence
+    if (fencedTable) {
+        if (line.trim() === '```') {
             break;
         }
-
-        if (inTable) {
-            tableLines.push(line);
+        // Ignore blank lines inside the fenced block
+        if (line.trim() === '') {
+            continue;
         }
+        tableLines.push(line);
+        continue;
     }
+	
+    // Legacy table: blank line ends the table
+    if (line === '') {
+        break;
+    }
+    tableLines.push(line);
+	}
 
     if (tableLines.length === 0) return '';
 
@@ -34,7 +54,7 @@ function renderTabstable(mdText) {
         let text = cellText.trim();
 
         // dedicated empty cell
-        if (text === '^|') {
+        if (text === '^|' || text === '&empty') {
             text = '';
         }
 
@@ -111,10 +131,7 @@ function renderTabstable(mdText) {
                 alignAttr = ` align="${headerCells[i].align}"`;
             }
             html += `<td${cell.colspan}${cell.rowspan}${alignAttr}>${cell.text}</td>`;	
-
-			
-			
-			
+	
         });
         html += '</tr>\n';
     });

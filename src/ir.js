@@ -1,5 +1,43 @@
 function parseMarkdownTabstable(md) {
-  const lines = md.split('\n').map(l => l.trim()).filter(l => l);
+const rawLines = md.split(/\r?\n/);
+let lines = [];
+let inTable = false;
+let fencedTable = false;
+
+for (const rawLine of rawLines) {
+    const line = rawLine.trim();
+
+    if (!inTable) {
+        if (/^\|!\|\s*$/.test(line)) {
+            inTable = true;
+            fencedTable = false;
+            lines.push('|!|');
+            continue;
+        }
+
+        if (/^```tabstable\s*$/.test(line)) {
+            inTable = true;
+            fencedTable = true;
+            lines.push('|!|');
+            continue;
+        }
+
+        continue;
+    }
+
+    if (fencedTable && /^```\s*$/.test(line)) {
+        break;
+    }
+
+    if (!fencedTable && line === '') {
+        break;
+    }
+
+    if (line !== '') {
+        lines.push(line);
+    }
+}
+
   if (lines.length === 0) return { header: [], rows: [] };
 
   let header = [];
@@ -37,7 +75,7 @@ function parseMarkdownTabstable(md) {
           cell.text = c.replace(/!([0-9]+)<</, '').trim();
           cell.rowspan = parseInt(mRow[1]);
         }
-        if (cell.text === '^|') cell.text = '';
+        if (cell.text === '^|' || cell.text === '&empty') cell.text = '';
         row.push(cell);
       });
       rows.push(row);
