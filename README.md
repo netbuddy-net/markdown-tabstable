@@ -27,8 +27,10 @@ Bob		    30          Hawaii          US
 ## Syntax
 
 - **Constraints**:
-	- A table must be **preceded and followed by an empty line**.
-	- The special marker `|!|` (pipe+exclamation mark+pipe) must appear **on the empty line** immediately before the table, with **no spaces** before it.
+	- A table must be preceded and followed by an empty line. This requirement does **not** apply when using fenced code blocks, supported from **Version 1.2** and later.
+	- Tables can be initialised in either of two ways:
+		- Using a **fenced code block** opened with ` ```tabstable` and closed with ` ``` `, each on a separate line, supported from **Version 1.2** and later.
+		- Using the special marker `|!|` (pipe+exclamation mark+pipe), which must appear **on the empty line** immediately before the table, with **no spaces** before it.
  	- Currently, table header (`<thead>`) supports only **one row**. 
 - **Tab-separated tables**: Columns are separated by **one tab**, extra tabs or spaces are allowed but ignored during rendering.
 - **Cell alignment using header**:
@@ -39,22 +41,22 @@ Bob		    30          Hawaii          US
 - **Colspan / Rowspan**:
 	- ` !N>>` → **colspan=N**, (space+exclamation mark+number+greater+greater) following the last character in the cell, where N is the number of columns to span (remember the leading space).
 	- ` !N<<` → **rowspan=N**, (space+exclamation mark+number+less+less) following the last character in the cell, where N is the number of rows to span (remember the leading space). Note: body only, rowspan on header currently ignored.
-- **Empty cells**: Use `^|`  (caret+pipe) to create a dedicated empty cell.
-- **Attention**: When using colspan or rowspan, ensure that all affected cells are completely empty (not even `^|`), because the span will occupy those cell positions.
+- **Empty cells**: Use `^|`  (caret+pipe)  or `&empty` to create a dedicated empty cell. The **&empty** keyword is supported from Version 1.2 and later.
+- **Attention**: When using colspan or rowspan, ensure that all affected cells are completely empty (not even `^|` or `&empty`), because the span will occupy those cell positions.
 
 ## Markdown Example
 
-```text
+````text
 ... other markdown content here ...
-|!|
+```tabstable
 Name		:Age:		:Town			Country:
 Anna		45			London			UK !2<<
 Alice		22			Bristol	
-Rick		^|			Lyon			FR	 
+Rick		&empty		Lyon			FR	 
 Bob			30			Hawaii !2>>
-
-... other markdown content here ...
 ```
+... other markdown content here ...
+````
 
 ## HTML Output
 
